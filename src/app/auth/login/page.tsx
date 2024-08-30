@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 
-import LoginForm from "~/components/Form/LoginForm";
 import OAuthLoginForm from "~/components/Form/OAuthLoginForm";
 
 const Page = () => {
@@ -16,7 +15,6 @@ const Page = () => {
       </div>
 
       <div>
-        <loginForm />
       </div>
     </div>
   );
