@@ -9,7 +9,7 @@ const OAuthLoginForm = () => {
         Sign In with Google
       </button>
       <button className={buttonStyle} type='submit' name='action' value='github'>
-        Sign In with Github
+        Sign In with Github1
       </button>
     </form>
   );
