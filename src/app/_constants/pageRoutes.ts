@@ -9,4 +9,6 @@ export const pageRoutes = {
   VIDEOS: "/videos",
   TAGS: "/tags",
   SEARCH: "/search",
+  NOTIFICATIONS: "/notifications",
+  PROFILES: "/profiles",
 }

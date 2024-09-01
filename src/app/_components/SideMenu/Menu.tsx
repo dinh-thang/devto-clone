@@ -129,7 +129,7 @@ const Menu = () => {
       link: "https://fosstodon.org/@thepracticaldev",
       imagePath: "/mastodon.svg",
     },
-  ]
+  ];
 
   return (
     <div>

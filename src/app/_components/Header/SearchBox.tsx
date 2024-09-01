@@ -3,13 +3,9 @@
 import React from 'react';
 
 import SearchIcon from "~/app/_components/Icon/SearchIcon";
-import PrimaryBtn from "~/app/_components/Button/PrimaryBtn";
-import SecondaryBtn from "~/app/_components/Button/SecondaryBtn";
-import {useRouter} from "next/navigation";
-import {pageRoutes} from "~/app/_constants/pageRoutes";
+import AuthSection from "~/app/_components/Header/AuthSection";
 
-const SearchBar = () => {
-  const router = useRouter();
+const SearchBox = () => {
 
   return (
     <form className="flex w-full ml-2 h-full content-center items-center">
@@ -26,12 +22,9 @@ const SearchBar = () => {
         </div>
       </div>
 
-      <div className="flex flex-row-reverse w-1/2 h-full content-center items-center">
-        <PrimaryBtn onclick={() => void router.push(pageRoutes.SIGNUP)}>Create account</PrimaryBtn>
-        <SecondaryBtn onclick={() => void router.push(pageRoutes.LOGIN)} className="mr-[5px]">Log in</SecondaryBtn>
-      </div>
+      <AuthSection/>
     </form>
   );
 };
 
-export default SearchBar;
+export default SearchBox;
