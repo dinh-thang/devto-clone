@@ -1,19 +1,18 @@
 import {HydrateClient} from "~/trpc/server";
-import BaseCard from "~/app/_components/Card/BaseCard";
-import PrimaryBtn from "~/app/_components/Button/PrimaryBtn";
-import SecondaryBtn from "~/app/_components/Button/SecondaryBtn";
+import Menu from "~/app/_components/SideMenu/Menu";
 
 export default async function Home() {
   return (
     <HydrateClient>
-      <BaseCard className="w-52">
-        <div className="font-bold">DEV Community is a community of 1,977,735 amazing developers</div>
-        <div className="text-black/50 text-[12px] py-3">We&apos;re a place where coders share, stay up-to-date and grow their careers.</div>
-        <div className="flex flex-col">
-          <PrimaryBtn className="mb-1">Create account</PrimaryBtn>
-          <SecondaryBtn className="">Log in</SecondaryBtn>
+      <div className="grid grid-cols-4 gap-4 w-full h-full">
+        <div className="col-span-1">
+          <Menu/>
         </div>
-      </BaseCard>
+        <div className="bg-white col-span-2">
+        </div>
+        <div className="col-span-1 bg-white">
+        </div>
+      </div>
     </HydrateClient>
   );
 }

@@ -1,10 +1,11 @@
 import React from 'react';
+import {type ButtonProps} from "~/app/_components/Button/PrimaryBtn";
 
-const ThirdBtn = () => {
+const ThirdBtn: React.FC<ButtonProps> = ({ children, onclick }) => {
   return (
-    <div>
-      
-    </div>
+    <button onClick={onclick} className="py-2 px-3 rounded hover:bg-white hover:text-[#3b49d] text-base">
+      {children}
+    </button>
   );
 };
 
