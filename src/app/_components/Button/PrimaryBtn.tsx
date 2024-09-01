@@ -1,5 +1,4 @@
 import React from 'react';
-import {BTN_PRIMARY_BG} from "~/app/_constants/styles";
 
 export interface ButtonProps {
   children?: React.ReactNode;

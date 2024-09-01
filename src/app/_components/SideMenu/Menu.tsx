@@ -145,6 +145,7 @@ const Menu = () => {
         ))}
       </div>
 
+      {/* others */}
       <div className="flex flex-col mb-4">
         <h1 className="font-bold text-base">Other</h1>
         {others.map((item, index) => (
@@ -157,15 +158,17 @@ const Menu = () => {
         ))}
       </div>
 
+      {/* medias */}
       <div className="flex flex-row justify-start mb-4">
         {medias.map((item, index) => (
           <SecondaryBtn key={index} className="flex flex-row items-center">
-            <Image src={item.imagePath} alt={`${item.name} icon`} width={24} height={24} />
             <a
               href={item.link}
               target="_blank"
               rel={item.name}
-            />
+            >
+              <Image src={item.imagePath} alt={`${item.name} icon`} width={24} height={24}/>
+            </a>
           </SecondaryBtn>
           ))}
       </div>
@@ -173,9 +176,15 @@ const Menu = () => {
       <div className="flex flex-row justify-between items-center mb-4">
         <h1 className="font-bold text-base">My Tags</h1>
         <SecondaryBtn className="flex flex-row items-center">
-          <Image src="/setting.svg" alt="setting" width={24} height={24} />
-          <Link className="pl-2" href="/setting" passHref />
+          <Link href="/setting" passHref>
+            <Image src="/setting.svg" alt="setting" width={24} height={24} />
+          </Link>
         </SecondaryBtn>
+      </div>
+
+      {/* tags box */}
+      <div className="max-h-[42vh]">
+        {/* TODO: Display all tag dynamically here*/}
       </div>
     </div>
 );
