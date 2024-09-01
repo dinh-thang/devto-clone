@@ -5,8 +5,7 @@ import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
 
 import { Roboto } from 'next/font/google'
-import HeaderBar from "~/app/_components/Header/HeaderBar";
-import ContentContainer from "~/app/_components/Container/ContentContainer";
+import SessionProviderWrapper from "../_components/SessionProviderWrapper";
 
 const roboto = Roboto({
   weight: '400',
@@ -26,11 +25,13 @@ export default function AuthLayout({
   return (
     <html lang="en" className={roboto.className}>
     <body className="">
-    <TRPCReactProvider>
-      <main className="">
-        {children}
-      </main>
-    </TRPCReactProvider>
+    <SessionProviderWrapper>
+      <TRPCReactProvider>
+        <main className="">
+          {children}
+        </main>
+      </TRPCReactProvider>
+    </SessionProviderWrapper>
     </body>
     </html>
   );

@@ -7,6 +7,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { Roboto } from 'next/font/google'
 import HeaderBar from "~/app/_components/Header/HeaderBar";
 import ContentContainer from "~/app/_components/Container/ContentContainer";
+import SessionProviderWrapper from "../_components/SessionProviderWrapper";
 
 const roboto = Roboto({
   weight: '400',
@@ -26,14 +27,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={roboto.className}>
     <body className="min-h-screen flex flex-col">
-    <TRPCReactProvider>
-      <HeaderBar/>
-      <main className="flex-grow bg-gray-100 pt-16">
-        <ContentContainer>
-          {children}
-        </ContentContainer>
-      </main>
-    </TRPCReactProvider>
+      <SessionProviderWrapper>
+        <TRPCReactProvider>
+          <HeaderBar/>
+          <main className="flex-grow bg-gray-100 pt-16">
+            <ContentContainer>
+              {children}
+            </ContentContainer>
+          </main>
+        </TRPCReactProvider>
+      </SessionProviderWrapper>
     </body>
     </html>
   );

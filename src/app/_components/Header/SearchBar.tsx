@@ -1,10 +1,16 @@
+"use client"
+
 import React from 'react';
 
 import SearchIcon from "~/app/_components/Icon/SearchIcon";
 import PrimaryBtn from "~/app/_components/Button/PrimaryBtn";
 import SecondaryBtn from "~/app/_components/Button/SecondaryBtn";
+import {useRouter} from "next/navigation";
+import {pageRoutes} from "~/app/_constants/pageRoutes";
 
 const SearchBar = () => {
+  const router = useRouter();
+
   return (
     <form className="flex w-full ml-2 h-full content-center items-center">
       <div className="flex border border-black/15 h-[40px] rounded w-1/2">
@@ -21,8 +27,8 @@ const SearchBar = () => {
       </div>
 
       <div className="flex flex-row-reverse w-1/2 h-full content-center items-center">
-        <PrimaryBtn>Create account</PrimaryBtn>
-        <SecondaryBtn className="mr-[5px]">Log in</SecondaryBtn>
+        <PrimaryBtn onclick={() => void router.push(pageRoutes.SIGNUP)}>Create account</PrimaryBtn>
+        <SecondaryBtn onclick={() => void router.push(pageRoutes.LOGIN)} className="mr-[5px]">Log in</SecondaryBtn>
       </div>
     </form>
   );

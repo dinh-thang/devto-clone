@@ -17,14 +17,9 @@ const Page = () => {
       </div>
 
       <div className="col-start-2 mt-4 ">
-        <OAuthForm />
+        <OAuthForm isSignUp={true}/>
       </div>
 
-      <p className="col-start-2 text-base text-black/50 text-center">OR</p>
-
-      <div>
-
-      </div>
     </div>
   );
 };
