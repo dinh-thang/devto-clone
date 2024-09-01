@@ -12,14 +12,14 @@ import ProfileDropCard from "~/app/_components/Card/ProfileDropCard";
 
 const AuthSection = () => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
 
-  if (status === "unauthenticated") {
+  if (!session) {
     return (
       <div className="flex flex-row-reverse w-1/2 h-full content-center items-center">
         <PrimaryBtn onclick={() => router.push(pageRoutes.SIGNUP)}>Create account</PrimaryBtn>
