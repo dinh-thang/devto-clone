@@ -1,5 +1,6 @@
 import {HydrateClient} from "~/trpc/server";
 import Menu from "~/app/_components/SideMenu/Menu";
+import NavBar from "~/app/_components/NavBar/NavBar";
 
 export default async function Home() {
   return (
@@ -8,7 +9,9 @@ export default async function Home() {
         <div className="col-span-1">
           <Menu/>
         </div>
-        <div className="bg-white col-span-2">
+
+        <div className="col-span-2">
+          <NavBar/>
         </div>
         <div className="col-span-1 bg-white">
         </div>

@@ -11,7 +11,7 @@ const NavBar = () => {
   return (
     <div className="flex flex-row w-full">
       {navList.map((item, index) => (
-        <ThirdBtn key={index}>
+        <ThirdBtn key={index} className="">
           {item}
         </ThirdBtn>
       ))}
