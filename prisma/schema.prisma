@@ -14,18 +14,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
-}
-
 // Necessary for Next auth
 model Account {
     id                       String  @id @default(cuid())
@@ -63,6 +51,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+    comments      Comment[]
 }
 
 model VerificationToken {
@@ -72,3 +61,32 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model Comment {
+    id String @id @default(cuid())
+    createdAt DateTime @default(now())
+    content String
+
+    userId String @unique
+    user User @relation(fields: [userId], references: [id])
+
+    postId String @unique
+    post Post @relation(fields: [postId], references: [id])
+}
+
+model Post {
+    id        String      @id @default(cuid())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    createdBy   User   @relation(fields: [createdById], references: [id])
+    createdById String
+
+    comments Comment[]
+    content String @default("")
+
+    @@index([name])
+}
+
+
