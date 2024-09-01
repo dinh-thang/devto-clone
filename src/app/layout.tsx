@@ -28,7 +28,7 @@ export default function RootLayout({
     <body className="min-h-screen flex flex-col">
     <TRPCReactProvider>
       <HeaderBar/>
-      <main className="flex-grow mt-10">
+      <main className="flex-grow mt-14">
         <ContentContainer>
           {children}
         </ContentContainer>
