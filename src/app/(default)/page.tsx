@@ -6,12 +6,12 @@ import PostCard from "~/app/_components/Card/PostCard";
 export default async function Home() {
   return (
     <HydrateClient>
-      <div className="grid grid-cols-6 gap-4 w-full h-full">
-        <div className="col-span-1">
+      <div className="grid grid-cols-10 gap-4 w-full h-full">
+        <div className="col-start-1 col-span-2">
           <Menu/>
         </div>
 
-        <div className="col-span-4">
+        <div className="col-start-3 col-span-5">
           <NavBar className="mb-2"/>
 
           <PostCard
@@ -28,7 +28,7 @@ export default async function Home() {
 
         </div>
 
-        <div className="col-span-1 bg-white">
+        <div className="col-span-3 bg-white rounded border">
         </div>
       </div>
     </HydrateClient>

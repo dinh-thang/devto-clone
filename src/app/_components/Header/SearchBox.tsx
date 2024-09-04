@@ -8,10 +8,10 @@ import AuthSection from "~/app/_components/Header/AuthSection";
 const SearchBox = () => {
 
   return (
-    <form className="flex w-full ml-2 h-full content-center items-center">
+    <form className="flex w-full ml-4 h-full content-center items-center">
       <div className="flex border border-black/15 h-[40px] rounded w-1/2">
         <button className="w-[40px] h-[40px] relative group flex items-center justify-center hover:bg-[#2f3ab2]/15 rounded">
-          <SearchIcon className="text-black w-[40px]"/>
+          <SearchIcon className="text-black w-[40px] h-[25px]"/>
         </button>
 
         <div className="flex items-center w-full">
