@@ -34,8 +34,7 @@ const AuthSection = () => {
         <div className="relative">
           <button type="button" className="h-10 w-10 hover:bg-[#3b49df]/15 rounded-full p-[4px]" onClick={togglePopup}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="rounded-full w-10 h-10" src={session?.user?.image ?? "/devto_ic.svg"} alt=""/>
-            {/*<Link href={pageRoutes.PROFILES}/>*/}
+            <img className="rounded-full h-[30px] w-[40px]" src={session?.user?.image ?? "/devto_ic.svg"} alt=""/>
           </button>
           {isOpen ? <ProfileDropCard/> : ""}
         </div>

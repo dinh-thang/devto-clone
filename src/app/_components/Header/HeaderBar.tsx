@@ -10,7 +10,7 @@ const HeaderBar = () => {
         <SearchBox/>
       </div>
     </header>
-  );
+);
 };
 
 export default HeaderBar;

@@ -2,16 +2,14 @@
 
 import React from 'react';
 import {signOut} from "next-auth/react";
+import SecondaryBtn from "~/app/_components/Button/SecondaryBtn";
 
 const ProfileDropCard = () => {
   return (
-    <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg">
-      <button
-        onClick={() => signOut({callbackUrl: "https://devto-clone-s9px.vercel.app/"})}
-        className="w-full px-4 py-2 text-left text-red-600 hover:bg-red-50 rounded"
-      >
+    <div className="absolute right-0 mt-2 p-2 w-48 bg-white rounded shadow-lg">
+      <SecondaryBtn className="mr-2 w-full text-left" onclick={() => signOut()}>
         Sign Out
-      </button>
+      </SecondaryBtn>
     </div>
   );
 };

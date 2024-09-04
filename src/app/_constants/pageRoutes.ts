@@ -4,7 +4,7 @@ export const pageRoutes = {
   SIGNUP: "/signup",
   DEVPP: "/++",
   READING_LIST: "/reading-list",
-  NEW_POST: "/new-post",
+  NEW_POST: "/new",
   PODCASTS: "/podcasts",
   VIDEOS: "/videos",
   TAGS: "/tags",

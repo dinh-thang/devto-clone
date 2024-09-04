@@ -52,6 +52,7 @@ model User {
     sessions      Session[]
     posts         Post[]
     comments      Comment[]
+    linkedPosts Post[] @relation("liked_posts")
 }
 
 model VerificationToken {
@@ -83,8 +84,14 @@ model Post {
     createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String
 
+    coverImage String?
+
+    tags String[]
+
     comments Comment[]
     content String @default("")
+
+    reacts User[] @relation("liked_posts")
 
     @@index([name])
 }

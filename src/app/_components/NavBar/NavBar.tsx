@@ -1,7 +1,7 @@
 import React from 'react';
 import ThirdBtn from "~/app/_components/Button/ThirdBtn";
 
-const NavBar = () => {
+const NavBar = ({ className="" } : {className?: string}) => {
   const navList: string[] = [
     "Relevant",
     "Latest",
@@ -9,9 +9,9 @@ const NavBar = () => {
   ]
 
   return (
-    <div className="flex flex-row w-full">
+    <div className={`${className} flex flex-row w-full`}>
       {navList.map((item, index) => (
-        <ThirdBtn key={index} className="">
+        <ThirdBtn key={index}>
           {item}
         </ThirdBtn>
       ))}
