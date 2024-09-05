@@ -6,7 +6,6 @@ import Image from "next/image";
 import {api} from "~/trpc/react";
 import BaseCard from "~/app/_components/Card/BaseCard";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
 import MarkdownRenderer from "~/app/_components/MdTextArea/MarkdownRenderer";
 
 const Page = () => {
@@ -32,7 +31,7 @@ const Page = () => {
         {/* TODO: Add reaction, jump to comment here*/}
       </div>
 
-      <BaseCard className={`col-span-8 col-start-2 ${post!.coverImage ? 'p-0' : ''}`}>
+      <BaseCard className={`col-span-8 col-start-2 ${post.coverImage ? 'p-0' : ''}`}>
         {isLoading ? (
           <p>Loading...</p>
         ) : (
