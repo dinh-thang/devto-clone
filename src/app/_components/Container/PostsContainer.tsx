@@ -8,7 +8,7 @@ const PostsContainer = () => {
   const { data: posts, isLoading } = api.post.getAllPosts.useQuery();
 
   return (
-    <div>
+    <div className="">
       {isLoading ? (
         <p>Loading...</p>
       ) : (

@@ -2,6 +2,7 @@ import React from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import {BTN_PRIMARY_BG} from "~/app/_constants/styles";
+import MarkdownRenderer from "~/app/_components/MdTextArea/MarkdownRenderer";
 
 export interface Comment {
   username: string;
@@ -49,7 +50,7 @@ const PostCard: React.FC<Post> = ({
   }
 
   return (
-    <div className={`${className} w-full rounded border bg-white`}>
+    <div className={`${className} w-full rounded border bg-white mb-2`}>
       {/* bg image */}
       {coverImage && (
         <div className="h-auto w-full">
@@ -80,9 +81,9 @@ const PostCard: React.FC<Post> = ({
 
         {/* title, tags and reactions */}
         <div className="pl-10">
-          <p className={`text-[30px] mb-2 hover:text-[${BTN_PRIMARY_BG}] font-bold`}>
-            {title}
-          </p>
+          <Link href={`post/${id}`} className={`mb-2 hover:text-[${BTN_PRIMARY_BG}]`}>
+            <MarkdownRenderer>{title}</MarkdownRenderer>
+          </Link>
 
           {/* tags */}
           <div className="flex flex-row mb-2">
