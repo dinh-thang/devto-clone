@@ -51,14 +51,16 @@ const PostCard: React.FC<Post> = ({
   return (
     <div className={`${className} w-full rounded border bg-white`}>
       {/* bg image */}
-      <div className={`h-auto w-full`}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="rounded-t" src={coverImage} alt={username} />
-        <Link href={`link to post`} />
-      </div>
+      {coverImage && (
+        <div className="h-auto w-full">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="rounded-t" src={coverImage} alt={username} />
+          <Link href={`link to post`} />
+        </div>
+      )}
 
-      {/* post content */}
       <div className="rounded-b p-5">
+        {/* post info */}
         <div className="flex mb-2">
           <img
             className="mr-2 h-[32px] w-[32px] items-start rounded-full"
@@ -66,11 +68,13 @@ const PostCard: React.FC<Post> = ({
             alt=""
           />
           <div className="flex flex-col">
-            <button className="-my-2 -ml-1 h-6 rounded p-1 text-[14px] font-semibold hover:bg-[#F5F5F5]">
-              <Link href="/">{username}</Link>
-            </button>
+            <div>
+              <button className="-my-2 -ml-1 h-6 inline-block w-auto rounded p-1 text-[14px] font-semibold hover:bg-[#F5F5F5]">
+                <Link href="/">{username}</Link>
+              </button>
+            </div>
             <div className="flex-grow"></div>
-            <p className="text-xs">{timePosted}</p>
+            <p className="text-xs">{new Date(timePosted).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
           </div>
         </div>
 
