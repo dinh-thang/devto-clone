@@ -26,7 +26,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={roboto.className}>
-    <body className="min-h-screen flex flex-col">
+    <body>
       <SessionProviderWrapper>
         <TRPCReactProvider>
           <HeaderBar/>
