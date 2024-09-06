@@ -20,8 +20,8 @@ export const metadata: Metadata = {
 };
 
 export default function AuthLayout({
-                                     children,
-                                   }: Readonly<{ children: React.ReactNode }>) {
+   children,
+ }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={roboto.className}>
     <body className="bg-gray-100 h-screen w-full overflow-hidden">

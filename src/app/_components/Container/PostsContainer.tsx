@@ -22,8 +22,8 @@ const PostsContainer = () => {
             coverImage={post.coverImage ?? ""}
             title={post.name}
             tags={post.tags}
-            numberOfReactions={post.reacts?.length || 0}
-            content={post.content}
+            numberOfReactions={post.reacts?.length ?? 0}
+            comments={post.comments?.length ?? 0}
           />
         ))
       )}

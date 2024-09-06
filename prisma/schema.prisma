@@ -68,11 +68,17 @@ model Comment {
     createdAt DateTime @default(now())
     content String
 
-    userId String @unique
+    userId String
     user User @relation(fields: [userId], references: [id])
 
-    postId String @unique
+    parentId String?
+    parent   Comment?   @relation("CommentReplies", fields: [parentId], references: [id])
+    replies  Comment[]  @relation("CommentReplies")
+
+    postId String
     post Post @relation(fields: [postId], references: [id])
+
+    likes Int @default(0)
 }
 
 model Post {
@@ -90,6 +96,8 @@ model Post {
 
     comments Comment[]
     content String @default("")
+
+    likes Int @default(0)
 
     reacts User[] @relation("liked_posts")
 

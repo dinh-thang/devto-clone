@@ -2,7 +2,6 @@
 
 import React, {useState} from 'react';
 import DevToLogo from "~/app/_components/Icon/DevToLogo";
-import BaseCard from "~/app/_components/Card/BaseCard";
 import SecondaryBtn from "~/app/_components/Button/SecondaryBtn";
 import {BTN_PRIMARY_BG} from "~/app/_constants/styles";
 import BlogEditForm from "~/app/_components/Form/BlogEditForm";
@@ -28,9 +27,9 @@ const Page = () => {
       </div>
 
       <div className="col-start-2 h-[90vh] pb-2 col-span-11 flex">
-        <BaseCard className="w-[63%]">
+        <div className="w-[63%]">
           <BlogEditForm/>
-        </BaseCard>
+        </div>
 
         <div className="w-[37%] p-4">
           <p className="font-bold text-lg">Editor Basics</p>

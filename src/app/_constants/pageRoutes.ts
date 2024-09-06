@@ -5,10 +5,13 @@ export const pageRoutes = {
   DEVPP: "/++",
   READING_LIST: "/reading-list",
   NEW_POST: "/new",
+  POST: "/post",
   PODCASTS: "/podcasts",
   VIDEOS: "/videos",
   TAGS: "/tags",
   SEARCH: "/search",
   NOTIFICATIONS: "/notifications",
   PROFILES: "/profiles",
+  LATEST: "/latest",
+  TOP: "/top",
 }
