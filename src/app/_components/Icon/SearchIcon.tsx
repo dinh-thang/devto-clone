@@ -1,13 +1,11 @@
 import React from 'react';
 
 const SearchIcon = ({ className='' }) => {
-  const dimension = 16;
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={dimension}
-      height={dimension}
+      width={24}
+      height={24}
       className={className}
       viewBox="0 0 24 24"
     >

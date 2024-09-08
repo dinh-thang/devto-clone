@@ -8,6 +8,7 @@ import BaseCard from "~/app/_components/Card/BaseCard";
 import Link from "next/link";
 import MarkdownRenderer from "~/app/_components/MdTextArea/MarkdownRenderer";
 import CommentsContainer from "~/app/_components/Container/CommentsContainer";
+import DiscussionBar from "~/app/_components/Bar/DiscussionBar";
 
 const Page = () => {
   const { id } = useParams();
@@ -51,8 +52,8 @@ const Page = () => {
   }
 
   return (
-    <div className="grid h-screen grid-cols-12 gap-4 rounded-md pb-4">
-      <div className="col-span-1 flex w-full flex-col pt-8">
+    <div className="grid w-screen grid-cols-18 gap-4 rounded-md pb-4">
+      <div className="w-16 flex flex-col pt-8">
         <span className="flex flex-col items-center p-2 mb-1">
           <button onClick={handlePostLike} className="flex flex-col">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-hidden="true">
@@ -91,8 +92,8 @@ const Page = () => {
         </span>
       </div>
 
-      <BaseCard
-        className={`col-span-8 col-start-2 ${post.coverImage ? "p-0" : ""}`}
+      <div
+        className={`col-span-12 col-start-2 rounded-md bg-white border ${post.coverImage ? "p-0" : "p-3"}`}
       >
         {isLoading ? (
           <p>Loading...</p>
@@ -113,17 +114,17 @@ const Page = () => {
               <div className="mb-2 flex">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  className="mr-2 h-[32px] w-[32px] items-start rounded-full"
+                  className="mr-2 h-[40px] w-[40px] items-start rounded-full"
                   src={post.createdBy.image ?? "/devto_ic.svg"}
                   alt=""
                 />
                 <div className="flex flex-col">
                   <div>
-                    <button className="-my-2 -ml-1 inline-block h-6 w-auto rounded p-1 text-[14px] font-semibold hover:bg-[#F5F5F5]">
+                    <button className="-my-2 -ml-1 inline-block h-6 w-auto rounded p-1 font-semibold hover:bg-[#F5F5F5]">
                       <Link href="/">{post.createdBy.name}</Link>
                     </button>
                   </div>
-                  <div className="flex-grow"></div>
+                  <div className="flex  flex-grow" />
                   <p className="text-xs">
                     {new Date(post.createdAt).toLocaleDateString("en-US", {
                       year: "numeric",
@@ -148,9 +149,9 @@ const Page = () => {
 
               {/* title */}
               <div className={``}>
-                <MarkdownRenderer className={`text-[48px]`}>
+                <p className="text-5xl font-extrabold">
                   {post.name}
-                </MarkdownRenderer>
+                </p>
               </div>
 
               {/* tags */}
@@ -236,10 +237,9 @@ const Page = () => {
             </div>
           </div>
         )}
-      </BaseCard>
+      </div>
 
-      {/* most right card */}
-      <BaseCard className="col-span-3 rounded-md border bg-white"></BaseCard>
+      <DiscussionBar className="col-span-5" title={`More from ${post.createdBy.name}`} />
     </div>
   );
 

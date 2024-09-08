@@ -138,7 +138,7 @@ const Menu = () => {
           <SecondaryBtn key={index} className="flex flex-row items-center">
             {/*<Image src={item.imagePath} alt={item.name}/>*/}
             <Image src={item.imagePath} alt={`${item.name} icon`} width={24} height={24} />
-            <Link className="pl-2" href={item.link} passHref>
+            <Link className="pl-2 text-black" href={item.link} passHref>
               {item.name}
             </Link>
           </SecondaryBtn>
@@ -151,7 +151,7 @@ const Menu = () => {
         {others.map((item, index) => (
           <SecondaryBtn key={index} className="flex flex-row items-center">
             <Image src={item.imagePath} alt={`${item.name} icon`} width={24} height={24} />
-            <Link className="pl-2" href={item.link} passHref>
+            <Link className="pl-2 text-black" href={item.link} passHref>
               {item.name}
             </Link>
           </SecondaryBtn>
@@ -187,7 +187,7 @@ const Menu = () => {
         {/* TODO: Display all tag dynamically here*/}
       </div>
     </div>
-);
+  );
 };
 
 export default Menu;

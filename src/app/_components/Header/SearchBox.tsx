@@ -1,17 +1,14 @@
-"use client"
-
 import React from 'react';
 
 import SearchIcon from "~/app/_components/Icon/SearchIcon";
-import AuthSection from "~/app/_components/Header/AuthSection";
 
 const SearchBox = () => {
 
   return (
-    <form className="flex w-full ml-4 h-full content-center items-center">
-      <div className="flex border border-black/15 h-[40px] rounded w-1/2">
-        <button className="w-[40px] h-[40px] relative group flex items-center justify-center hover:bg-[#2f3ab2]/15 rounded">
-          <SearchIcon className="text-black w-[40px] h-[25px]"/>
+    <div className="flex mx-4 content-center items-center w-[680px]">
+      <form className="flex border border-black/15 rounded-md w-full h-full">
+        <button className="py-1.5 hover:bg-[#2f3ab2]/15 rounded-md">
+          <SearchIcon className="mx-1.5"/>
         </button>
 
         <div className="flex items-center w-full">
@@ -20,10 +17,8 @@ const SearchBox = () => {
             Powered by Algolia
           </a>
         </div>
-      </div>
-
-      <AuthSection/>
-    </form>
+      </form>
+    </div>
   );
 };
 

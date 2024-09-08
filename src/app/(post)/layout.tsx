@@ -1,17 +1,12 @@
 import "~/styles/globals.css";
 
 import { type Metadata } from "next";
-
 import { TRPCReactProvider } from "~/trpc/react";
 
-import { Roboto } from 'next/font/google'
 import SessionProviderWrapper from "../_components/SessionProviderWrapper";
-
-const roboto = Roboto({
-  weight: '400',
-  subsets: ['latin'],
-  display: 'swap',
-})
+import TransparentNavBar from "~/app/_components/Header/TransparentNavBar";
+import NewPostContainer from "~/app/_components/Container/NewPostContainer";
+import {HydrateClient} from "~/trpc/server";
 
 export const metadata: Metadata = {
   title: "DEV Community",
@@ -23,13 +18,16 @@ export default function AuthLayout({
    children,
  }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={roboto.className}>
-    <body className="bg-gray-100 h-screen w-full overflow-hidden">
+    <html lang="en" className="font-dev">
+    <body className="bg-gray-100 h-screen">
     <SessionProviderWrapper>
       <TRPCReactProvider>
-        <main className="">
-          {children}
-        </main>
+        <HydrateClient>
+          <TransparentNavBar/>
+          <NewPostContainer>
+            {children}
+          </NewPostContainer>
+        </HydrateClient>
       </TRPCReactProvider>
     </SessionProviderWrapper>
     </body>

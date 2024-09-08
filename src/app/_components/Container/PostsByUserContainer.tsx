@@ -1,15 +1,13 @@
-"use client"
-
 import React from 'react';
 import {api} from "~/trpc/react";
-import PostCard from "~/app/_components/Card/PostCard";
 import PostCardContainerSkeleton from "~/app/_components/Skeleton/PostCardContainerSkeleton";
+import PostCard from "~/app/_components/Card/PostCard";
 
-const PostsContainer = () => {
+const PostsByUserContainer = ({ className="" } : {className: string}) => {
   const { data: posts, isLoading } = api.post.getAllPosts.useQuery();
 
   return (
-    <div>
+    <div className={className}>
       {isLoading ? (
         <PostCardContainerSkeleton/>
       ) : (
@@ -32,4 +30,4 @@ const PostsContainer = () => {
   );
 };
 
-export default PostsContainer;
+export default PostsByUserContainer;

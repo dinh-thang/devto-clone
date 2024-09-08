@@ -11,7 +11,7 @@ export const pageRoutes = {
   TAGS: "/tags",
   SEARCH: "/search",
   NOTIFICATIONS: "/notifications",
-  PROFILES: "/profiles",
+  PROFILES: "/profile",
   LATEST: "/latest",
   TOP: "/top",
 }

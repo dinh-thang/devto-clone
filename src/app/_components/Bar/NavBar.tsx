@@ -12,12 +12,12 @@ const NavBar = ({ className="", currentTab } : {className?: string, currentTab: 
       link: pageRoutes.HOME,
     },
     {
-      name: "Top",
-      link: pageRoutes.TOP,
-    },
-    {
       name: "Latest",
       link: pageRoutes.LATEST,
+    },
+    {
+      name: "Top",
+      link: pageRoutes.TOP,
     },
   ]
   const [selected, setSelected] = React.useState(currentTab);
@@ -26,7 +26,7 @@ const NavBar = ({ className="", currentTab } : {className?: string, currentTab: 
     <div className={`${className} flex flex-row w-full`}>
       {navList.map((item, index) => (
         <ThirdBtn onclick={() => setSelected(item.name)} key={index}>
-          <Link href={item.link} className={`${item.name === selected ? 'font-bold' : ''}`}>{item.name}</Link>
+          <Link href={item.link} className={`text-lg ${item.name === selected ? 'font-bold' : ''}`}>{item.name}</Link>
         </ThirdBtn>
       ))}
     </div>

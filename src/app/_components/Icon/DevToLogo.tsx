@@ -11,7 +11,6 @@ const DevToLogo = ({ width=50, height=40}) => {
           src="/devto-logo.png"
           width={width}
           height={height}
-          className="mt-2 w-[50px] h-[40px]"
           alt="logo"
         />
       </a>

@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface ContainerProps {
+export interface ContainerProps {
   children: React.ReactNode;
 }
 
 const ContentContainer : React.FC<ContainerProps> = ({ children }) => {
   return (
-    <div className="px-2 xl:px-[4vw] 2xl:px-[8vw] h-full w-full pt-3">
+    <div className="flex items-center justify-center mx-auto p-4 max-w-1380px h-full">
       {children}
     </div>
   );

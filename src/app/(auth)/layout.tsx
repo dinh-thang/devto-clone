@@ -1,17 +1,10 @@
 import "~/styles/globals.css";
 
 import { type Metadata } from "next";
-
 import { TRPCReactProvider } from "~/trpc/react";
 
-import { Roboto } from 'next/font/google'
 import SessionProviderWrapper from "../_components/SessionProviderWrapper";
-
-const roboto = Roboto({
-  weight: '400',
-  subsets: ['latin'],
-  display: 'swap',
-})
+import {HydrateClient} from "~/trpc/server";
 
 export const metadata: Metadata = {
   title: "DEV Community",
@@ -23,13 +16,15 @@ export default function AuthLayout({
    children,
  }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={roboto.className}>
+    <html lang="en" className="font-dev">
     <body className="">
     <SessionProviderWrapper>
       <TRPCReactProvider>
-        <main className="">
-          {children}
-        </main>
+        <HydrateClient>
+          <main>
+            {children}
+          </main>
+        </HydrateClient>
       </TRPCReactProvider>
     </SessionProviderWrapper>
     </body>

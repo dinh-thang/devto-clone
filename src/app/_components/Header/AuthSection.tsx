@@ -9,19 +9,20 @@ import {useSession} from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import ProfileDropCard from "~/app/_components/Card/ProfileDropCard";
+import UserProfileIcon from "~/app/_components/Icon/UserProfileIcon";
 
 const AuthSection = () => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
-
-  if (!session) {
+  
+  if (status === "unauthenticated") {
     return (
-      <div className="flex flex-row-reverse w-1/2 h-full content-center items-center">
+      <div className="flex flex-row-reverse font-medium h-full content-center items-center">
         <PrimaryBtn onclick={() => router.push(pageRoutes.SIGNUP)}>Create account</PrimaryBtn>
         <SecondaryBtn onclick={() => router.push(pageRoutes.LOGIN)} className="mr-[5px]">Log in</SecondaryBtn>
       </div>
@@ -29,24 +30,22 @@ const AuthSection = () => {
   }
 
   return (
-    <div className="flex flex-row-reverse items-center flex-grow">
+    <div className="flex flex-row-reverse h-full content-center items-center">
       <div className="flex items-center rounded-full top-10 px-1 pt-1">
         <div className="relative">
           <button type="button" className="h-10 w-10 hover:bg-[#3b49df]/15 rounded-full p-[4px]" onClick={togglePopup}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="rounded-full h-[30px] w-[40px]" src={session?.user?.image ?? "/devto_ic.svg"} alt=""/>
+            <UserProfileIcon profileImg={session?.user?.image}/>
           </button>
-          {isOpen ? <ProfileDropCard/> : ""}
+          {isOpen ? <ProfileDropCard email={session?.user?.email ?? "@email"} username={session?.user?.name ?? "Anonymous"} userId={session?.user?.id ?? ""}/> : ""}
         </div>
-
       </div>
 
-      <SecondaryBtn className="">
-        <Image className="px-2" src="/bell.svg" alt="notification icon" width={40} height={40} />
+      <SecondaryBtn className="px-1">
+        <Image src="/bell.svg" alt="notification icon" width={24} height={24} />
         <Link href={pageRoutes.NOTIFICATIONS}/>
       </SecondaryBtn>
 
-      <PrimaryBtn className="mr-2" onclick={() => router.push(pageRoutes.NEW_POST)}>Create Post</PrimaryBtn>
+      <PrimaryBtn className="mr-2 px-4 font-medium" onclick={() => router.push(pageRoutes.NEW_POST)}>Create Post</PrimaryBtn>
     </div>
   );
 };

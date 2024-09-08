@@ -4,7 +4,6 @@ import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
 
 import HeaderBar from "~/app/_components/Header/HeaderBar";
-import ContentContainer from "~/app/_components/Container/ContentContainer";
 import SessionProviderWrapper from "../_components/SessionProviderWrapper";
 import {HydrateClient} from "~/trpc/server";
 
@@ -14,24 +13,22 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/devto_ic.svg" }],
 };
 
-export default function RootLayout({
-  children,
+export default function ProfileLayout({
+ children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="font-dev">
     <body>
-      <SessionProviderWrapper>
-        <TRPCReactProvider>
-          <HydrateClient>
-            <HeaderBar/>
-            <main className="bg-gray-100">
-              <ContentContainer>
-                {children}
-              </ContentContainer>
-            </main>
-          </HydrateClient>
-        </TRPCReactProvider>
-      </SessionProviderWrapper>
+    <SessionProviderWrapper>
+      <TRPCReactProvider>
+        <HydrateClient>
+          <HeaderBar/>
+          <main className="overflow-x-hidden bg-gray-100">
+            {children}
+          </main>
+        </HydrateClient>
+      </TRPCReactProvider>
+    </SessionProviderWrapper>
     </body>
     </html>
   );
