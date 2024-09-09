@@ -41,11 +41,11 @@ const OAuthForm = ({ isSignUp=false }) => {
       {providers.map((item, index) => (
         <button
           key={index}
-          className="flex min-h-6 w-full flex-row items-center rounded border p-3 text-center text-xs mb-4"
+          className="flex w-full flex-row hover:bg-gray-100 items-center rounded-md border border-black/25 p-3 text-center mb-3"
           onClick={() => signIn(item.name, { callbackUrl: '/' })}
         >
           <Image className="justify-start" src={item.icon} alt={item.name} width={24} height={24} />
-          <p className="flex-grow font-medium text-base">
+          <p className="flex-grow font-medium text-sm">
             {isSignUp ? `Sign up with ${item.name}` : `Continue with ${item.name}`}
           </p>
         </button>

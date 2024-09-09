@@ -8,12 +8,14 @@ import {useRouter} from "next/navigation";
 import TextToolBar from "~/app/_components/Bar/TextToolBar";
 
 const BlogEditForm = ({ className } : { className: string }) => {
-  const [coverImage, setCoverImage] = useState("https://media.dev.to/cdn-cgi/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fibv5cp72xewcimtdrr8v.gif");
+  const router = useRouter();
+
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState("");
   const [content, setContent] = useState("");
+  const [coverImage, setCoverImage] = useState<File | null>(null);
 
-  const router = useRouter();
+  const getPresignedUrl = api.aws.generatePresignedUrl.useMutation();
 
   const publish = api.post.addPost.useMutation({
     onSuccess: () => {
@@ -23,7 +25,7 @@ const BlogEditForm = ({ className } : { className: string }) => {
       setTitle('');
       setTags('');
       setContent('');
-      setCoverImage('');
+      setCoverImage(null)
 
       router.push("/");
     },
@@ -32,62 +34,104 @@ const BlogEditForm = ({ className } : { className: string }) => {
     },
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setCoverImage(file);
+    }
+  };
+
+  const uploadImageToS3 = async (file: File) => {
+    try {
+      // get pre-signed url for image upload
+      const { uploadUrl, publicUrl } = await getPresignedUrl.mutateAsync({
+        fileName: file.name,
+        fileType: file.type,
+      });
+
+      // upload image to S3 using pre-signed url
+      const uploadResponse = await fetch(uploadUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": file.type,
+        },
+        body: file,
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error("Failed to upload image to S3");
+      }
+
+      return publicUrl;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      return null;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!title) {
-      alert('Title is required.');
+    if (!coverImage) {
+      console.error("Upload a cover image plss");
       return;
     }
 
-    // separate tags by comma
+    const coverImageUrl = await uploadImageToS3(coverImage);
+    if (!coverImageUrl) {
+      console.error("Error uploading image");
+      return;
+    }
+
     const tagsList = tags.split(',').map((tag) => tag.trim()).filter(Boolean);
 
     publish.mutate({
       name: title,
       content: content,
-      coverImage: coverImage ?? "",
+      coverImage: coverImageUrl,
       tags: tagsList,
     })
   }
 
-  const saveDraft = () => {
-    return;
-  }
-
   return (
-    <form onSubmit={handleSubmit} className={`h-full flex flex-col ${className}`}>
-      <div className="rounded-md bg-white border flex-grow">
+    <form
+      onSubmit={handleSubmit}
+      className={`flex h-full flex-col ${className}`}
+    >
+      <div className="flex-grow rounded-md border bg-white">
         <div className="overflow-auto">
-          <div className="px-16 py-8 h-full">
-            <input
-              type="text"
-              placeholder="Paste cover image link..."
-              className="w-full border-0 text-base py-6 placeholder-black font-medium focus:outline-0 focus:ring-0"
-              value={coverImage}
-              onChange={(e) => setCoverImage(e.target.value)}
-            />
+          <div className="h-full px-16 py-8">
+            <button
+              onClick={() => document.getElementById("fileInput")?.click()}
+              className="mb-5 block rounded-md border-2 border-gray-400/50 px-3.5 py-1.5 font-semibold text-black/65 shadow"
+            >
+              <input id="fileInput" type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+
+              <p className="text-black/70">
+                {coverImage ? coverImage.name : "Add a cover image"}
+              </p>
+            </button>
 
             <textarea
               placeholder="New post title here..."
-              className="w-full resize-none placeholder-black/70 border-0 text-5xl mb-2 font-black focus:outline-0 focus:ring-0"
+              className="mb-2 w-full resize-none border-0 text-5xl font-black placeholder-black/70 focus:outline-0 focus:ring-0"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
             <input
               type="text"
               placeholder="Add up to 4 tags (separate by comma)"
-              className="border-0 text-base placeholder-black/70 w-full focus:outline-0 focus:ring-0"
+              className="w-full border-0 text-base placeholder-black/70 focus:outline-0 focus:ring-0"
               value={tags}
               onChange={(e) => setTags(e.target.value)}
             />
           </div>
 
-          <TextToolBar className="-ml-2 py-2 px-16 bg-[#F9F9F9]"/>
+          <TextToolBar className="-ml-2 bg-[#F9F9F9] px-16 py-2" />
 
           <textarea
             placeholder="Write your post content here..."
-            className="placeholder-black/80 font-devMono text-lg font-medium w-full resize-none border-0 px-16 py-8 focus:outline-0 focus:ring-0"
+            className="w-full resize-none border-0 px-16 py-8 font-devMono text-lg font-medium placeholder-black/80 focus:outline-0 focus:ring-0"
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
@@ -102,14 +146,14 @@ const BlogEditForm = ({ className } : { className: string }) => {
           <p>Publish</p>
         </button>
 
-        <SecondaryBtn onclick={saveDraft} className="px-4 mr-2 font-normal">
+        <SecondaryBtn className="mr-2 px-4 font-normal">
           <p className="text-black">Save draft</p>
         </SecondaryBtn>
         <SecondaryBtn className="mr-2">
           <Image src="/setting.svg" alt="" width={24} height={24} />
         </SecondaryBtn>
         <SecondaryBtn className="mr-2 px-4">
-          <p className="text-black text-sm">Revert new changes</p>
+          <p className="text-sm text-black">Revert new changes</p>
         </SecondaryBtn>
       </div>
     </form>

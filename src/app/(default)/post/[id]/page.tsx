@@ -4,7 +4,6 @@ import React, {useState} from 'react';
 import { useParams } from 'next/navigation';
 import Image from "next/image";
 import {api} from "~/trpc/react";
-import BaseCard from "~/app/_components/Card/BaseCard";
 import Link from "next/link";
 import MarkdownRenderer from "~/app/_components/MdTextArea/MarkdownRenderer";
 import CommentsContainer from "~/app/_components/Container/CommentsContainer";

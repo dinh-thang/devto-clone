@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {BTN_PRIMARY_BG} from "~/app/_constants/styles";
 import {pageRoutes} from "~/app/_constants/pageRoutes";
+import {useRouter} from "next/navigation";
 
 export interface Comment {
   username: string;
@@ -13,6 +14,7 @@ export interface Comment {
 
 export interface Post {
   id: string
+  userId: string
   username: string
   userProfileImage: string
   timePosted: string
@@ -26,6 +28,7 @@ export interface Post {
 
 const PostCard: React.FC<Post> = ({
   id,
+  userId,
   username,
   userProfileImage,
   timePosted,
@@ -36,12 +39,14 @@ const PostCard: React.FC<Post> = ({
   comments,
   className="",
 }) => {
+  const router = useRouter();
+
   return (
     <div className={`${className} w-full rounded-md border bg-white mb-2`}>
       {/* bg image */}
       {coverImage && (
         <div className="h-auto w-full">
-          <Link href={`${pageRoutes.POST}/${id}`} passHref>
+          <Link href={`${pageRoutes.PROFILES}/${id}`} passHref>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="rounded-t" src={coverImage} alt={username} />
           </Link>
@@ -52,12 +57,18 @@ const PostCard: React.FC<Post> = ({
         <div className="mb-2 flex">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            className="mr-2 h-8 w-8 items-start rounded-full"
+            className="mr-2 cursor-pointer h-8 w-8 items-start rounded-full"
             src={userProfileImage}
+            onClick={() => router.push(pageRoutes.PROFILES + "/" + userId)}
             alt=""
           />
           <div className="flex flex-col">
-              <button className="hover:bg-[#F5F5F5] rounded-md -my-2 -ml-1 p-1 font-semibold text-sm">{username}</button>
+            <button
+              onClick={() => router.push(pageRoutes.PROFILES + "/" + userId)}
+              className="hover:bg-[#F5F5F5] rounded-md -my-2 -ml-1 p-1 font-semibold text-sm"
+            >
+              {username}
+            </button>
             <div className="flex flex-grow"/>
             <p className="text-xs">
               {new Date(timePosted).toLocaleDateString("en-US", {
@@ -100,8 +111,7 @@ const PostCard: React.FC<Post> = ({
 
             {/* comments */}
             <div className="flex flex-row items-center hover:cursor-pointer rounded py-1 pr-3 pl-2 hover:bg-[#F5F5F5]">
-              <Link className="flex flex-row hover:cursor-pointer items-center" href={`${pageRoutes.POST}/${id}`}
-                    passHref>
+              <Link className="flex flex-row hover:cursor-pointer items-center" href={`${pageRoutes.POST}/${id}`} passHref>
                 <Image className="mr-1" src="/comment.svg" alt="cmt icon" width={24} height={24}/>
                 <p className="text-sm text-black/70">{comments} Comment{comments < 2 ? '' : 's'}</p>
               </Link>
@@ -111,7 +121,7 @@ const PostCard: React.FC<Post> = ({
 
             {/* save post */}
             <Link className="flex flex-row items-center" href={`${pageRoutes.POST}/${id}`} passHref>
-              <p className="text-xs text-black/70 mr-1">4 min read</p>
+              <p className="text-xs text-black/70 mr-1">1 min read</p>
               <div className="p-2 rounded-md hover:bg-[#2f3ab2]/15">
                 <Image src="/flag.svg" alt="save post" width={24} height={24}/>
               </div>

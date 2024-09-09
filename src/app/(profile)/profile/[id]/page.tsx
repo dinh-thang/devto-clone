@@ -10,11 +10,8 @@ const Page = () => {
   const { data: session } = useSession();
 
   if (!session) {
-    return (
-      <div className="flex h-screen w-screen items-center justify-center">
-        <div>Session is not found</div>
-      </div>
-    );
+    console.error("Error loading session (Session is null).");
+    return;
   }
 
   return (
@@ -28,8 +25,8 @@ const Page = () => {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className="w-full rounded-full"
-              src={session.user.image ?? ""}
-              alt={session?.user?.name ?? ""}
+              src={session.user.image!}
+              alt={session.user.name ?? ""}
             />
           </div>
 

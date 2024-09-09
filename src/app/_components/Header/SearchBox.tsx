@@ -5,7 +5,7 @@ import SearchIcon from "~/app/_components/Icon/SearchIcon";
 const SearchBox = () => {
 
   return (
-    <div className="flex mx-4 content-center items-center w-[680px]">
+    <div className="flex mx-4 content-center items-center w-[450px] lg:w-[680px]">
       <form className="flex border border-black/15 rounded-md w-full h-full">
         <button className="py-1.5 hover:bg-[#2f3ab2]/15 rounded-md">
           <SearchIcon className="mx-1.5"/>

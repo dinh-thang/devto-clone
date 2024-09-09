@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const DevToLogo = ({ width=50, height=40}) => {
   return (
-    <Link href={pageRoutes.HOME} legacyBehavior passHref>
+    <Link className="min-w-[50px]" href={pageRoutes.HOME} legacyBehavior passHref>
       <a>
         <Image
           src="/devto-logo.png"

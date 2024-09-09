@@ -132,25 +132,34 @@ const Menu = () => {
   ];
 
   return (
-    <div>
-      <div className="flex flex-col mb-4">
+    <div className="">
+      <div className="mb-4 flex flex-col">
         {navMenu1.map((item, index) => (
           <SecondaryBtn key={index} className="flex flex-row items-center">
-            {/*<Image src={item.imagePath} alt={item.name}/>*/}
-            <Image src={item.imagePath} alt={`${item.name} icon`} width={24} height={24} />
+            <Image
+              src={item.imagePath}
+              alt={`${item.name} icon`}
+              width={24}
+              height={24}
+            />
             <Link className="pl-2 text-black" href={item.link} passHref>
-              {item.name}
+              <p className="text-left">{item.name}</p>
             </Link>
           </SecondaryBtn>
         ))}
       </div>
 
       {/* others */}
-      <div className="flex flex-col mb-4">
-        <h1 className="font-bold text-base">Other</h1>
+      <div className="mb-4 flex flex-col">
+        <h1 className="text-base py-2 pl-3 font-bold">Other</h1>
         {others.map((item, index) => (
           <SecondaryBtn key={index} className="flex flex-row items-center">
-            <Image src={item.imagePath} alt={`${item.name} icon`} width={24} height={24} />
+            <Image
+              src={item.imagePath}
+              alt={`${item.name} icon`}
+              width={24}
+              height={24}
+            />
             <Link className="pl-2 text-black" href={item.link} passHref>
               {item.name}
             </Link>
@@ -159,22 +168,23 @@ const Menu = () => {
       </div>
 
       {/* medias */}
-      <div className="flex flex-row justify-start mb-4">
+      <div className="mb-4 flex flex-row justify-start">
         {medias.map((item, index) => (
           <SecondaryBtn key={index} className="flex flex-row items-center">
-            <a
-              href={item.link}
-              target="_blank"
-              rel={item.name}
-            >
-              <Image src={item.imagePath} alt={`${item.name} icon`} width={24} height={24}/>
+            <a href={item.link} target="_blank" rel={item.name}>
+              <Image
+                src={item.imagePath}
+                alt={`${item.name} icon`}
+                width={24}
+                height={24}
+              />
             </a>
           </SecondaryBtn>
-          ))}
+        ))}
       </div>
 
-      <div className="flex flex-row justify-between items-center mb-4">
-        <h1 className="font-bold text-base">My Tags</h1>
+      <div className="mb-4 flex flex-row items-center justify-between">
+        <h1 className="text-base font-bold">My Tags</h1>
         <SecondaryBtn className="flex flex-row items-center">
           <Link href="/setting" passHref>
             <Image src="/setting.svg" alt="setting" width={24} height={24} />

@@ -43,6 +43,9 @@ export default {
       aspectRatio: {
         '10/8': '10 / 8',
       },
+      screens: {
+        'dev-xs': '500px',
+      },
       fontFamily: {
         dev: [
           '-apple-system',
@@ -64,9 +67,10 @@ export default {
           "Menlo",
           "Courier",
           "monospace"
-]
+        ],
       },
     },
   },
-  plugins: [],
+  plugins: [
+  ],
 } satisfies Config;
