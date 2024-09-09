@@ -17,6 +17,7 @@ const PostsContainer = () => {
           <PostCard
             key={post.id}
             id={post.id}
+            userId={post.createdBy.id}
             username={post.createdBy.name ?? "Anonymous"}
             userProfileImage={post.createdBy.image ?? "/devto_ic.svg"}
             timePosted={post.createdAt.toString()}
