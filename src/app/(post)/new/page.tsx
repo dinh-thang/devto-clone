@@ -9,8 +9,8 @@ const Page = () => {
   const isEdit = useState(true);
 
   return (
-    <div className="grid grid-cols-18 px-4">
-      <div className="relative h-full col-span-12 col-start-2">
+    <div className="grid grid-cols-18 md:px-4">
+      <div className="relative h-full col-span-18 md:col-span-12 col-start-2">
         <div className="absolute -top-[42px] right-0 flex flex-row-reverse">
           <SecondaryBtn className="mr-2 text-black/100">
             <p className="text-black">Preview</p>
@@ -22,7 +22,7 @@ const Page = () => {
         <BlogEditForm className="mx-1" />
       </div>
 
-      <div className="col-start-14 col-span-5 p-4">
+      <div className="hidden md:block md:col-start-14 md:col-span-5 p-4">
         <p className="text-lg font-bold">Editor Basics</p>
         <ul className="list-disc pl-5 text-black/70">
           <li>Use Markdown to write and format posts.</li>
