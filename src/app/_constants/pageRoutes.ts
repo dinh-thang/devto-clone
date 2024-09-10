@@ -14,4 +14,6 @@ export const pageRoutes = {
   PROFILES: "/profile",
   LATEST: "/latest",
   TOP: "/top",
+  SELF: "/self",
+  SETTINGS: "/settings",
 }

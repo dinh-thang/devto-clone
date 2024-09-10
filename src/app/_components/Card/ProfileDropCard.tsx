@@ -21,7 +21,7 @@ const ProfileDropCard = ({
     <div className="absolute top-9 right-0 mt-2 w-[234px] rounded-md border bg-white p-2 shadow-md">
       <SecondaryBtn
         className="mr-2 h-auto w-full px-4 py-2 text-left"
-        onclick={() => router.push(pageRoutes.PROFILES + "/" + userId)}
+        onclick={() => router.push(pageRoutes.SELF + "/" + userId)}
       >
         <p className="font-medium text-black hover:text-dev-blue">{username}</p>
         <p className="text-sm text-black/70 hover:text-dev-blue">{email}</p>

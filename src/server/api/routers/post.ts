@@ -18,6 +18,24 @@ export const postRouter = createTRPCRouter({
     });
   }),
 
+  searchPostsByTitle: publicProcedure
+    .input(z.object({ query: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.post.findMany({
+        where: {
+          name: {
+            contains: input.query,
+            mode: "insensitive",
+          },
+        },
+        include: {
+          createdBy: true,
+          comments: true,
+          reacts: true,
+        },
+      });
+    }),
+
   getPostById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
@@ -29,6 +47,19 @@ export const postRouter = createTRPCRouter({
           reacts: true,
         },
       });
+    }),
+
+  getPostByUserId: publicProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.post.findMany({
+        where: { createdById: input.userId },
+        include: {
+          createdBy: true,
+          comments: true,
+          reacts: true,
+        }
+      })
     }),
 
   addPost: protectedProcedure
@@ -52,7 +83,7 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
-  likePost: protectedProcedure
+  likePost: publicProcedure
     .input(
       z.object({
         postId: z.string()

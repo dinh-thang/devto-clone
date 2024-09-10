@@ -32,7 +32,7 @@ const AuthSection = () => {
 
   return (
     <div className="flex flex-row-reverse h-full content-center items-center">
-      <div className="flex items-center rounded-full top-10 px-1 pt-1">
+      <div className="flex items-center rounded-full top-10 px-1 ">
         <div className="relative">
           <button type="button" className="h-10 w-10 hover:bg-[#3b49df]/15 rounded-full p-[4px]" onClick={togglePopup}>
             <UserProfileIcon profileImg={session?.user?.image}/>
@@ -43,7 +43,7 @@ const AuthSection = () => {
         </div>
       </div>
 
-      <SecondaryBtn className="px-1">
+      <SecondaryBtn className="px-3">
         <Image src="/bell.svg" alt="notification icon" width={24} height={24}/>
         <Link href={pageRoutes.NOTIFICATIONS}/>
       </SecondaryBtn>

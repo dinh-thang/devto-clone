@@ -4,17 +4,20 @@ import React from 'react';
 
 import BaseCard from "~/app/_components/Card/BaseCard";
 import PostsByUserContainer from "~/app/_components/Container/PostsByUserContainer";
-import {useParams} from "next/navigation";
-import {api} from "~/trpc/react";
+import {useRouter} from "next/navigation";
+import {pageRoutes} from "~/app/_constants/pageRoutes";
+import {useSession} from "next-auth/react";
 
 const Page = () => {
-  const { id } = useParams();
-  const userId = Array.isArray(id) ? id[0] : id ?? "";
+  const { data: session, status } = useSession();
+  const router = useRouter()
 
-  const { data: user } = api.user.getUserById.useQuery({ userId: userId! })
+  if (status === "unauthenticated") {
+    router.push(pageRoutes.LOGIN);
+  }
 
-  if (!user) {
-    console.error("Error loading user profile (User is null).");
+  if (!session) {
+    console.error("Error loading session (Session is null).");
     return;
   }
 
@@ -29,15 +32,15 @@ const Page = () => {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className="w-full rounded-full"
-              src={user.image!}
-              alt={user.name!}
+              src={session.user.image!}
+              alt={session.user.name ?? ""}
             />
           </div>
 
           <div className="-mt-16 flex w-full flex-row-reverse rounded-t-md bg-white pr-6 pt-6">
-            {/* invisible btn to hold the page*/}
             <button
-              className={`rounded-md cursor-default bg-white px-4 py-2 font-medium text-white`}
+              onClick={() => router.push(pageRoutes.SETTINGS)}
+              className={`rounded-md bg-[#3b49df] px-4 py-2 font-medium text-white hover:bg-[#2f3ba8]`}
             >
               <p>Edit profile</p>
             </button>
@@ -48,12 +51,12 @@ const Page = () => {
         <div className="z-30 rounded-md rounded-t-none bg-white p-6">
           <div className="flex flex-col items-center justify-center">
             <h1 className="mb-2 text-[30px] font-bold">
-              {user.name}
+              {session.user.name ?? "Anonymous"}
             </h1>
 
-            <p className="mb-4 text-lg">{user.bio}</p>
+            <p className="mb-4 text-lg">404 bio not found</p>
             {/* TODO: dynamic join date */}
-            <p className="mb-2 text-sm text-black/70">Joined on {new Date(user.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+            <p className="mb-2 text-sm text-black/70">Joined on Sep 1, 2024</p>
           </div>
         </div>
 
@@ -66,7 +69,7 @@ const Page = () => {
                 src="/post_published.svg"
                 alt="post"
               />
-              <p className="text-black/70">5 posts published</p>
+              <p className="text-black/70">5 post published</p>
             </div>
 
             <div className="flex flex-row mb-4">

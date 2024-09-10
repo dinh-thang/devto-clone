@@ -7,12 +7,12 @@ import DiscussionBar2 from "~/app/_components/Bar/DiscussionBar2";
 export default async function Home() {
 
   return (
-    <div className="grid grid-cols-12 lg:grid-cols-11 gap-4 w-full">
-      <div className="hidden md:block col-span-3 lg:col-span-2 lg:min-w-60">
+    <div className="grid md:grid-cols-[240px,1fr] lg:grid-cols-11 gap-4 w-full">
+      <div className="hidden md:block lg:col-span-2 lg:min-w-60">
         <Menu/>
       </div>
 
-      <div className="col-span-12 md:col-span-9 lg:col-span-6 ">
+      <div className="col-span-12 md:col-start-2 lg:col-span-6 ">
         <NavBar currentTab="Relevant" className="mb-2"/>
         <PostsContainer/>
       </div>

@@ -12,6 +12,8 @@ const Page = () => {
     <div className="grid grid-cols-18 md:px-4">
       <div className="relative h-full col-span-18 md:col-span-12 col-start-2">
         <div className="absolute -top-[42px] right-0 flex flex-row-reverse">
+
+          {/* TODO: do the preview */}
           <SecondaryBtn className="mr-2 text-black/100">
             <p className="text-black">Preview</p>
           </SecondaryBtn>

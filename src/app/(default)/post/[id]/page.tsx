@@ -8,12 +8,13 @@ import Link from "next/link";
 import MarkdownRenderer from "~/app/_components/MdTextArea/MarkdownRenderer";
 import CommentsContainer from "~/app/_components/Container/CommentsContainer";
 import DiscussionBar from "~/app/_components/Bar/DiscussionBar";
+import PostCardContainerSkeleton from "~/app/_components/Skeleton/PostCardContainerSkeleton";
+import PostPageSkeleton from "~/app/_components/Skeleton/PostPageSkeleton";
 
 const Page = () => {
   const { id } = useParams();
   const createComment = api.comment.createComment.useMutation();
   const [comment, setComment] = useState("");
-
 
   const postId = Array.isArray(id) ? id[0] : id;
   const { data: post, isLoading, error } = api.post.getPostById.useQuery(
@@ -28,14 +29,21 @@ const Page = () => {
     });
   };
 
+  if (isLoading) {
+    return (
+      <PostPageSkeleton />
+    )
+  }
+
   if (error) {
     return <p>An error occurred: {error.message}</p>;
   }
 
   if (!post) {
+    console.error("An error occurred");
     return;
   }
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -51,8 +59,8 @@ const Page = () => {
   }
 
   return (
-    <div className="grid w-screen grid-cols-18 gap-4 rounded-md pb-4">
-      <div className="w-16 flex flex-col pt-8">
+    <div className="grid w-screen  md:grid-cols-[64px,1fr] lg:grid-cols-18 md:gap-4 rounded-md pb-4">
+      <div className="hidden md:flex lg:col-span-1 w-16 flex-col pt-8">
         <span className="flex flex-col items-center p-2 mb-1">
           <button onClick={handlePostLike} className="flex flex-col">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-hidden="true">
@@ -92,10 +100,10 @@ const Page = () => {
       </div>
 
       <div
-        className={`col-span-12 col-start-2 rounded-md bg-white border ${post.coverImage ? "p-0" : "p-3"}`}
+        className={` lg:col-span-12 col-start-2 rounded-md bg-white border ${post.coverImage ? "p-0" : "p-3"}`}
       >
         {isLoading ? (
-          <p>Loading...</p>
+          <PostCardContainerSkeleton/>
         ) : (
           <div>
             {post?.coverImage ? (
@@ -147,7 +155,7 @@ const Page = () => {
               </div>
 
               {/* title */}
-              <div className={``}>
+              <div className={`mb-2`}>
                 <p className="text-5xl font-extrabold">
                   {post.name}
                 </p>
@@ -201,7 +209,7 @@ const Page = () => {
                     placeholder="Add to the discussion"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
-                    className="placeholder-text-[#525252] mb-3 h-28 w-full resize-none rounded-md border p-2 focus:border-[#3b49df]"
+                    className="placeholder-text-[#525252] mb-3 h-28 w-full focus-within:border-[#3b49df] resize-none rounded-md border p-2"
                   ></textarea>
 
                   <div className={`flex flex-row`}>
@@ -238,7 +246,7 @@ const Page = () => {
         )}
       </div>
 
-      <DiscussionBar className="col-span-5" title={`More from ${post.createdBy.name}`} />
+      <DiscussionBar className="hidden lg:block col-span-5" title={`More from ${post.createdBy.name}`} />
     </div>
   );
 

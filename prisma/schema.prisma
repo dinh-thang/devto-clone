@@ -53,6 +53,7 @@ model User {
     sessions      Session[]
     posts         Post[]
     comments      Comment[]
+    profileImageLink String?
     linkedPosts Post[] @relation("liked_posts")
     createdAt DateTime @default(now())
 }

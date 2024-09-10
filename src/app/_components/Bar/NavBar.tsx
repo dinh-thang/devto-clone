@@ -23,7 +23,7 @@ const NavBar = ({ className="", currentTab } : {className?: string, currentTab: 
   const [selected, setSelected] = React.useState(currentTab);
 
   return (
-    <div className={`${className} flex flex-row w-full`}>
+    <div className={`flex flex-row w-full ${className}`}>
       {navList.map((item, index) => (
         <ThirdBtn onclick={() => setSelected(item.name)} key={index}>
           <Link href={item.link} className={`text-lg ${item.name === selected ? 'font-bold' : ''}`}>{item.name}</Link>
