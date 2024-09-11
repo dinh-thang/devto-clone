@@ -1,5 +1,6 @@
 import React from 'react';
 import DevToLogo from "~/app/_components/Icon/DevToLogo";
+import Image from "next/image";
 
 const TransparentNavBar = () => {
   return (
@@ -12,6 +13,9 @@ const TransparentNavBar = () => {
 
         <div className="flex-grow"/>
       </div>
+      {/*<div className="p-2">*/}
+      {/*  <Image src="/close.svg" alt="x" height={24} width={24}/>*/}
+      {/*</div>*/}
     </header>
   );
 };

@@ -13,21 +13,69 @@ import PostPageSkeleton from "~/app/_components/Skeleton/PostPageSkeleton";
 
 const Page = () => {
   const { id } = useParams();
-  const createComment = api.comment.createComment.useMutation();
-  const [comment, setComment] = useState("");
-
   const postId = Array.isArray(id) ? id[0] : id;
+
+  const [comment, setComment] = useState("");
+  const [optimisticComments, setOptimisticComments] = useState<any[]>([]);
+
   const { data: post, isLoading, error } = api.post.getPostById.useQuery(
     { id: postId ?? "" },
     { enabled: !!postId }
   );
 
-  const { mutate: likePost } = api.post.likePost.useMutation();
+  const createComment = api.comment.createComment.useMutation({
+    // Optimistic update using onMutate
+    onMutate: async (newComment) => {
+      const optimisticComment = {
+        id: 'temp-id-' + Date.now(),
+        content: newComment.content,
+        createdAt: new Date(),
+        user: {
+          name: "You",
+          image: "/your-avatar.jpg"
+        },
+        likes: 0
+      };
+      setOptimisticComments(prev => [...prev, optimisticComment]);
+
+      // Return context with previous comments for rollback
+      return { previousComments };
+    },
+    onError: (err, newComment, context) => {
+      // Rollback to the previous comments if mutation fails
+      if (context?.previousComments) {
+        api.comment.getCommentsByPostId.setData({ postId }, context.previousComments);
+      }
+    },
+    onSuccess: () => {
+      // Optionally refetch comments or invalidate the query to sync with server
+      api.comment.getCommentsByPostId.invalidate({ postId });
+    },
+  });
+
+
+  const { mutate: likePost } = api.post.likePost.useMutation({
+
+  });
   const handlePostLike = () => {
     likePost({
       postId: postId!
     });
   };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      createComment.mutate({
+        content: comment,
+        postId: postId!,
+      });
+      setComment("");
+    } catch (error) {
+      console.error("Error when adding the comment:", error);
+    }
+  }
 
   if (isLoading) {
     return (
@@ -42,20 +90,6 @@ const Page = () => {
   if (!post) {
     console.error("An error occurred");
     return;
-  }
-  
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      createComment.mutate({
-        content: comment,
-        postId: postId!,
-      });
-      setComment("");
-    } catch (error) {
-      console.error("Error when adding the comment:", error);
-    }
   }
 
   return (

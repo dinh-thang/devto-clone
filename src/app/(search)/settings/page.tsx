@@ -10,13 +10,16 @@ import BaseCard from "~/app/_components/Card/BaseCard";
 import {api} from "~/trpc/react";
 
 const Page = () => {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const router = useRouter();
 
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
-  const [username, setUsername] = React.useState("");
   const [profileImage, setProfileImage] = React.useState<File | null>(null);
+
+  const [prevName, setPrevName] = React.useState("");
+  const [prevEmail, setPrevEmail] = React.useState("");
+  const [prevImage, setPrevImage] = React.useState<File | null>(null);
 
   if (status === "unauthenticated") {
     router.push(pageRoutes.LOGIN);
@@ -31,7 +34,28 @@ const Page = () => {
     )
   }
 
-  const updateUser = api.user.updateUserDetails.useMutation();
+  const updateUser = api.user.updateUserDetails.useMutation({
+    onMutate: async (newData) => {
+      // save old states
+      await update({
+        ...session,
+        user: {
+          ...session?.user,
+          ...newData
+        }
+      })
+      return { previousSession: session }
+    },
+    onError: async (error, newData, ctx) => {
+      if (ctx?.previousSession) {
+        await update(ctx.previousSession);
+      }
+    },
+    onSuccess: async (newData) => {
+      await update(newData);
+    }
+  });
+
   const getPresignedUrl = api.aws.generatePresignedUrl.useMutation();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,12 +107,6 @@ const Page = () => {
         name: name,
       })
     }
-    if (username !== "") {
-      await updateUser.mutateAsync({
-        userId: session.user.id,
-        name: username,
-      })
-    }
     if (email !== "") {
       await updateUser.mutateAsync({
         userId: session.user.id,
@@ -110,9 +128,12 @@ const Page = () => {
         })
       }
     }
+
+    // reset states
+    setName("");
+    setEmail("");
+    setProfileImage(null);
   }
-
-
 
   return (
     <div className="mx-auto flex h-screen max-w-screen-lg p-2 lg:p-4">
@@ -155,21 +176,10 @@ const Page = () => {
             </div>
 
             <div className="mb-6">
-              <p className="mb-2 font-medium">Username</p>
-              <input
-                type="text"
-                className="w-full rounded-md border placeholder-black border-black/30 p-2 focus:border-2 focus:border-dev-blue focus:outline-none"
-                onChange={(e) => setUsername(e.target.value)}
-                value={username}
-                placeholder={session?.user?.name ?? ""}
-              />
-            </div>
-
-            <div className="mb-6">
               <p className="mb-2 font-medium">Profile image</p>
               <div className="flex flex-row items-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="rounded-full mr-2 h-12" src={session?.user?.image ?? ""} alt=""/>
+                <img className="rounded-full mr-2 w-12 h-12" src={session?.user?.image ?? ""} alt=""/>
                 <div className="flex border rounded-md h-16 p-3 items-center w-full">
                   <input
                     type="file"

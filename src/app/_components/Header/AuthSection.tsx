@@ -24,8 +24,8 @@ const AuthSection = () => {
   if (status === "unauthenticated") {
     return (
       <div className="flex flex-row-reverse font-medium h-full content-center items-center">
-        <PrimaryBtn onclick={() => router.push(pageRoutes.SIGNUP)} className="mr-2 md:mr-0">Create account</PrimaryBtn>
-        <SecondaryBtn onclick={() => router.push(pageRoutes.LOGIN)} className="mr-[5px]">Log in</SecondaryBtn>
+        <PrimaryBtn onClick={() => router.push(pageRoutes.SIGNUP)} className="mr-2 md:mr-0">Create account</PrimaryBtn>
+        <SecondaryBtn onClick={() => router.push(pageRoutes.LOGIN)} className="mr-[5px]">Log in</SecondaryBtn>
       </div>
     );
   }
@@ -51,7 +51,7 @@ const AuthSection = () => {
       <button className="block md:hidden px-[2px] mr-1 py-2 hover:bg-[#2f3ab2]/15 rounded-md">
         <SearchIcon className="mx-1.5"/>
       </button>
-      <PrimaryBtn className="hidden md:block mr-2 px-4 font-medium" onclick={() => router.push(pageRoutes.NEW_POST)}>Create
+      <PrimaryBtn className="hidden md:block mr-2 px-4 font-medium" onClick={() => router.push(pageRoutes.NEW_POST)}>Create
         Post</PrimaryBtn>
     </div>
   );

@@ -1,18 +1,17 @@
 "use client"
 
-import React, {useState} from 'react';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import SecondaryBtn from "~/app/_components/Button/SecondaryBtn";
 import Image from "next/image";
 import {api} from "~/trpc/react";
 import {useRouter} from "next/navigation";
 import TextToolBar from "~/app/_components/Bar/TextToolBar";
 
-const BlogEditForm = ({ className } : { className: string }) => {
+const BlogEditForm = ({ className, content, setContent } : { className: string, content: string, setContent: Dispatch<SetStateAction<string>> }) => {
   const router = useRouter();
 
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState("");
-  const [content, setContent] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
 
   const getPresignedUrl = api.aws.generatePresignedUrl.useMutation();
@@ -138,7 +137,7 @@ const BlogEditForm = ({ className } : { className: string }) => {
         </div>
       </div>
 
-      <div className={`flex flex-row py-4`}>
+      <div className={`flex flex-row py-6`}>
         <button
           type="submit"
           className={`mr-2 rounded-md bg-[#3b49df] px-4 py-2 font-medium text-white hover:bg-[#2f3ba8]`}

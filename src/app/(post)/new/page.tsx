@@ -4,27 +4,55 @@ import React, {useState} from 'react';
 import SecondaryBtn from "~/app/_components/Button/SecondaryBtn";
 import {BTN_PRIMARY_BG} from "~/app/_constants/styles";
 import BlogEditForm from "~/app/_components/Form/BlogEditForm";
+import MarkdownRenderer from "~/app/_components/MdTextArea/MarkdownRenderer";
 
 const Page = () => {
-  const isEdit = useState(true);
+  const [isEdit, setIsEdit] = useState(true);
+  const [content, setContent] = useState("");
 
   return (
     <div className="grid grid-cols-18 md:px-4">
-      <div className="relative h-full col-span-18 md:col-span-12 col-start-2">
-        <div className="absolute -top-[42px] right-0 flex flex-row-reverse">
-
-          {/* TODO: do the preview */}
-          <SecondaryBtn className="mr-2 text-black/100">
-            <p className="text-black">Preview</p>
+      <div className="relative col-span-18 h-full md:col-span-12 md:col-start-2">
+        <div className="absolute -top-[42px] right-0 z-50 flex flex-row-reverse">
+          <SecondaryBtn
+            onClick={() => setIsEdit(false)}
+            className={`mr-2 text-black/100 hover:no-underline ${!isEdit ? "font-medium" : "font-normal"}`}
+          >
+            <p className={`text-black`}>Preview</p>
           </SecondaryBtn>
-          <SecondaryBtn className="mx-2 font-medium text-black/100">
+          <SecondaryBtn
+            onClick={() => setIsEdit(true)}
+            className={`mx-2 text-black/100 hover:no-underline ${isEdit ? "font-medium" : "font-normal"}`}
+          >
             <p className="text-black">Edit</p>
           </SecondaryBtn>
         </div>
-        <BlogEditForm className="mx-1" />
+        {isEdit ? (
+          <BlogEditForm
+            content={content}
+            setContent={setContent}
+            className="mx-1"
+          />
+        ) : (
+          <div className="my-auto flex h-full flex-col">
+            <div className="rounded-md border bg-white h-full w-full px-16 py-8">
+              <MarkdownRenderer>{content}</MarkdownRenderer>
+            </div>
+
+            <div className={`flex flex-row py-6`}>
+              <button
+                onClick={() => setIsEdit(true)}
+                type="submit"
+                className={`mr-2 rounded-md bg-[#3b49df] px-4 py-2 font-medium text-white hover:bg-[#2f3ba8]`}
+              >
+                <p>Return to editing</p>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
-      <div className="hidden md:block md:col-start-14 md:col-span-5 p-4">
+      <div className="hidden p-4 md:col-span-5 md:col-start-14 md:block">
         <p className="text-lg font-bold">Editor Basics</p>
         <ul className="list-disc pl-5 text-black/70">
           <li>Use Markdown to write and format posts.</li>
@@ -40,7 +68,8 @@ const Page = () => {
           </li>
           <li>
             {/* eslint-disable-next-line react/no-unescaped-entities */}
-            In addition to images for the post's content, you can also drag and drop a cover image.
+            In addition to images for the post's content, you can also drag and
+            drop a cover image.
           </li>
         </ul>
       </div>

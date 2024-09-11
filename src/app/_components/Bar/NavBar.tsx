@@ -25,7 +25,7 @@ const NavBar = ({ className="", currentTab } : {className?: string, currentTab: 
   return (
     <div className={`flex flex-row w-full ${className}`}>
       {navList.map((item, index) => (
-        <ThirdBtn onclick={() => setSelected(item.name)} key={index}>
+        <ThirdBtn onClick={() => setSelected(item.name)} key={index}>
           <Link href={item.link} className={`text-lg ${item.name === selected ? 'font-bold' : ''}`}>{item.name}</Link>
         </ThirdBtn>
       ))}

@@ -34,7 +34,7 @@ const SettingNavBar = () => {
   return (
     <div className="hidden md:flex flex-col">
       {navs.map((nav, index) => (
-        <SecondaryBtn onclick={() => setSelectedNav(nav.name)} key={index} className={`flex hover:no-underline items-center w-full flex-row pl-2 ${selectedNav === nav.name ? "bg-white hover:bg-white" : "bg-none"}`}>
+        <SecondaryBtn onClick={() => setSelectedNav(nav.name)} key={index} className={`flex hover:no-underline items-center w-full flex-row pl-2 ${selectedNav === nav.name ? "bg-white hover:bg-white" : "bg-none"}`}>
           <Image
             className="mr-2"
             src={nav.icon}
