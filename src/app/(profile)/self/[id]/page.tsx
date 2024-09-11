@@ -31,7 +31,7 @@ const Page = () => {
           <div className="relative z-20 flex w-32 items-center justify-center rounded-full bg-black p-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              className="w-full rounded-full"
+              className="w-[120px] h-[120px] rounded-full"
               src={session.user.image!}
               alt={session.user.name ?? ""}
             />

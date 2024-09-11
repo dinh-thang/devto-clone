@@ -1,62 +1,82 @@
 "use client"
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useParams } from 'next/navigation';
 import Image from "next/image";
-import {api} from "~/trpc/react";
+import {api, type RouterOutputs} from "~/trpc/react";
 import Link from "next/link";
 import MarkdownRenderer from "~/app/_components/MdTextArea/MarkdownRenderer";
 import CommentsContainer from "~/app/_components/Container/CommentsContainer";
 import DiscussionBar from "~/app/_components/Bar/DiscussionBar";
 import PostCardContainerSkeleton from "~/app/_components/Skeleton/PostCardContainerSkeleton";
 import PostPageSkeleton from "~/app/_components/Skeleton/PostPageSkeleton";
+import {useSession} from "next-auth/react";
+import {pageRoutes} from "~/app/_constants/pageRoutes";
+
+
+type Comment = RouterOutputs['comment']['getCommentsByPostId'][number];
+
+type OptimisticComment = Pick<Comment, 'id' | 'content' | 'createdAt' | 'likes'> & {
+  user: Pick<Comment['user'], 'name' | 'image'>;
+};
 
 const Page = () => {
+  const utils = api.useUtils();
+  const { data: session } = useSession();
   const { id } = useParams();
   const postId = Array.isArray(id) ? id[0] : id;
 
+  // content of the new comment
   const [comment, setComment] = useState("");
-  const [optimisticComments, setOptimisticComments] = useState<any[]>([]);
+
+  // list of all optimistic comments
+  const [commentList, setCommentList] = useState<OptimisticComment[]>([]);
 
   const { data: post, isLoading, error } = api.post.getPostById.useQuery(
     { id: postId ?? "" },
     { enabled: !!postId }
   );
 
+  const { data: comments, isSuccess } = api.comment.getCommentsByPostId.useQuery({ postId: postId! });
+
   const createComment = api.comment.createComment.useMutation({
-    // Optimistic update using onMutate
     onMutate: async (newComment) => {
-      const optimisticComment = {
+      if (!post)
+      {
+        return;
+      }
+
+      await utils.comment.getCommentsByPostId.cancel({ postId: postId! });
+      const prev = utils.comment.getCommentsByPostId.getData({ postId: postId! });
+      const optimisticComment: OptimisticComment = {
         id: 'temp-id-' + Date.now(),
         content: newComment.content,
         createdAt: new Date(),
+        likes: 0,
         user: {
-          name: "You",
-          image: "/your-avatar.jpg"
-        },
-        likes: 0
+          name: session?.user.name ?? "",
+          image: session?.user?.image ?? "",
+        }
       };
-      setOptimisticComments(prev => [...prev, optimisticComment]);
-
-      // Return context with previous comments for rollback
-      return { previousComments };
+      setCommentList((prevState) => [...prevState, optimisticComment]);
+      return { prev };
+    },
+    onSettled: async () => {
+      setCommentList([]);
+      await utils.comment.getCommentsByPostId.invalidate({ postId: postId! })
     },
     onError: (err, newComment, context) => {
-      // Rollback to the previous comments if mutation fails
-      if (context?.previousComments) {
-        api.comment.getCommentsByPostId.setData({ postId }, context.previousComments);
+      setCommentList([]);
+      if (context?.prev) {
+        utils.comment.getCommentsByPostId.setData({ postId: postId! }, context.prev);
       }
-    },
-    onSuccess: () => {
-      // Optionally refetch comments or invalidate the query to sync with server
-      api.comment.getCommentsByPostId.invalidate({ postId });
-    },
+    }
   });
 
+  const allComments = [...commentList, ...(comments ?? [])];
 
-  const { mutate: likePost } = api.post.likePost.useMutation({
-
-  });
+  const { mutate: likePost } = api.post.likePost.useMutation({});
+  
   const handlePostLike = () => {
     likePost({
       postId: postId!
@@ -162,7 +182,7 @@ const Page = () => {
                 <div className="flex flex-col">
                   <div>
                     <button className="-my-2 -ml-1 inline-block h-6 w-auto rounded p-1 font-semibold hover:bg-[#F5F5F5]">
-                      <Link href="/">{post.createdBy.name}</Link>
+                      <Link href={pageRoutes.PROFILES + "/" + post.createdBy.id}>{post.createdBy.name}</Link>
                     </button>
                   </div>
                   <div className="flex  flex-grow" />
@@ -233,7 +253,7 @@ const Page = () => {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     className="mr-2 h-[32px] w-[32px] items-start rounded-full"
-                    src={post.createdBy.image ?? "/devto_ic.svg"}
+                    src={session?.user?.image ?? "/devto_ic.svg"}
                     alt=""
                   />
                 </div>
@@ -274,7 +294,7 @@ const Page = () => {
               </form>
 
               {/* other comment */}
-              <CommentsContainer postId={postId!} />
+              <CommentsContainer comments={allComments} postId={postId!} />
             </div>
           </div>
         )}

@@ -29,15 +29,25 @@ export const commentRouter = createTRPCRouter({
       return ctx.db.comment.findUnique({
         where: { id: input.commentId },
         include: {
-          user: true,
-          post: true,
           replies: {
             include: {
               user: true,
             },
-            orderBy: {createdAt: "asc"},
+            orderBy: {createdAt: "desc"},
           },
         },
+      });
+    }),
+
+  getCommentsByPostId: publicProcedure
+    .input(z.object({ postId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.comment.findMany({
+        where: { postId: input.postId, parentId: null, },
+        include: {
+          user: true
+        },
+        orderBy: { createdAt: "desc" },
       });
     }),
 
@@ -67,16 +77,5 @@ export const commentRouter = createTRPCRouter({
         }
       });
     }),
-
-  getCommentsByPostId: publicProcedure
-    .input(z.object({ postId: z.string() }))
-    .query(async ({ ctx, input }) => {
-      return ctx.db.comment.findMany({
-        where: { postId: input.postId, parentId: null, },
-        include: {
-          user: true
-        },
-        orderBy: { createdAt: "desc" },
-      });
-    }),
 });
+

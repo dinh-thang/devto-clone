@@ -1,9 +1,24 @@
-import {api} from "~/trpc/react";
+import {type RouterOutputs} from "~/trpc/react";
 import React from "react";
 import CommentContainer from "~/app/_components/Container/CommentContainer";
 
-const CommentsContainer = ({ postId } : { postId: string }) => {
-  const {data: comments } = api.comment.getCommentsByPostId.useQuery({postId});
+
+type Comment = RouterOutputs['comment']['getCommentsByPostId'][number];
+
+type OptimisticComment = Pick<Comment, 'id' | 'content' | 'createdAt' | 'likes'> & {
+  user: Pick<Comment['user'], 'name' | 'image'>;
+};
+
+export interface CommentsContainerProps {
+  postId: string,
+  comments: OptimisticComment[];
+}
+
+const CommentsContainer: React.FC<CommentsContainerProps> = ({
+  postId,
+  comments,
+}) => {
+  // const {data: comments } = api.comment.getCommentsByPostId.useQuery({postId});
 
   return (
     <div>
