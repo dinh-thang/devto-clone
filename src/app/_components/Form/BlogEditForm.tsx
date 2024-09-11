@@ -1,19 +1,34 @@
 "use client"
 
-import React, {Dispatch, SetStateAction, useState} from 'react';
+import React, {type Dispatch, type SetStateAction} from 'react';
 import SecondaryBtn from "~/app/_components/Button/SecondaryBtn";
 import Image from "next/image";
 import {api} from "~/trpc/react";
 import {useRouter} from "next/navigation";
 import TextToolBar from "~/app/_components/Bar/TextToolBar";
 
-const BlogEditForm = ({ className, content, setContent } : { className: string, content: string, setContent: Dispatch<SetStateAction<string>> }) => {
+const BlogEditForm = ({
+  className,
+  content,
+  setContent,
+  title,
+  tags,
+  coverImage,
+  setCoverImage,
+  setTags,
+  setTitle,
+} : {
+  className: string,
+  content: string,
+  setContent: Dispatch<SetStateAction<string>>,
+  title: string,
+  tags: string,
+  coverImage: File | null,
+  setTitle: Dispatch<SetStateAction<string>>,
+  setTags: Dispatch<SetStateAction<string>>,
+  setCoverImage: Dispatch<SetStateAction<File | null>>,
+}) => {
   const router = useRouter();
-
-  const [title, setTitle] = useState("");
-  const [tags, setTags] = useState("");
-  const [coverImage, setCoverImage] = useState<File | null>(null);
-
   const getPresignedUrl = api.aws.generatePresignedUrl.useMutation();
 
   const publish = api.post.addPost.useMutation({

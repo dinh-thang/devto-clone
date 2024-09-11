@@ -8,6 +8,9 @@ import MarkdownRenderer from "~/app/_components/MdTextArea/MarkdownRenderer";
 
 const Page = () => {
   const [isEdit, setIsEdit] = useState(true);
+  const [title, setTitle] = useState("");
+  const [tags, setTags] = useState("");
+  const [coverImage, setCoverImage] = useState<File | null>(null);
   const [content, setContent] = useState("");
 
   return (
@@ -29,13 +32,19 @@ const Page = () => {
         </div>
         {isEdit ? (
           <BlogEditForm
+            title={title}
+            tags={tags}
+            coverImage={coverImage}
+            setTags={setTags}
+            setCoverImage={setCoverImage}
+            setTitle={setTitle}
             content={content}
             setContent={setContent}
             className="mx-1"
           />
         ) : (
           <div className="my-auto flex h-full flex-col">
-            <div className="rounded-md border bg-white h-full w-full px-16 py-8">
+            <div className="h-full w-full rounded-md border bg-white px-16 py-8">
               <MarkdownRenderer>{content}</MarkdownRenderer>
             </div>
 
