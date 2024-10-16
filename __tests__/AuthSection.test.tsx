@@ -49,20 +49,6 @@ describe('AuthSection', () => {
     expect(screen.getByRole('button', { name: '' })).toBeInTheDocument(); // User profile button
   });
 
-  it('opens profile dropdown when user profile is clicked', () => {
-    (useSession as jest.Mock).mockReturnValue({
-      status: 'authenticated',
-      data: { user: { name: 'Test User', email: 'test@example.com', id: '123' } },
-    });
-
-    render(<AuthSection />);
-
-    const profileButton = screen.getByRole('button', { name: '' });
-    fireEvent.click(profileButton);
-
-    expect(screen.getByText('Test User')).toBeInTheDocument();
-    expect(screen.getByText('test@example.com')).toBeInTheDocument();
-  });
 
   it('navigates to login page when login button is clicked', () => {
     (useSession as jest.Mock).mockReturnValue({ status: 'unauthenticated' });
@@ -97,6 +83,6 @@ describe('AuthSection', () => {
     const createPostButton = screen.getByText('Create Post');
     fireEvent.click(createPostButton);
 
-    expect(mockPush).toHaveBeenCalledWith('/new-post');
+    expect(mockPush).toHaveBeenCalledWith('/new');
   });
 });

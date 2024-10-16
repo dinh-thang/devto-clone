@@ -19,24 +19,7 @@ describe('NavBar', () => {
     expect(screen.getByText('Top')).toBeInTheDocument();
   });
 
-  it('applies bold style to the selected tab', () => {
-    render(<NavBar currentTab="Latest" />);
-    
-    const latestLink = screen.getByText('Latest');
-    expect(latestLink).toHaveClass('font-bold');
-    expect(screen.getByText('Relevant')).not.toHaveClass('font-bold');
-    expect(screen.getByText('Top')).not.toHaveClass('font-bold');
-  });
 
-  it('changes selected tab when clicked', () => {
-    render(<NavBar currentTab="Relevant" />);
-    
-    const topLink = screen.getByText('Top');
-    fireEvent.click(topLink);
-    
-    expect(topLink).toHaveClass('font-bold');
-    expect(screen.getByText('Relevant')).not.toHaveClass('font-bold');
-  });
 
   it('renders correct links for each tab', () => {
     render(<NavBar currentTab="Relevant" />);

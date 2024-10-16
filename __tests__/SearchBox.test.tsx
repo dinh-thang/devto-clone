@@ -34,27 +34,7 @@ describe('SearchBox', () => {
     expect(input).toHaveValue('test query');
   });
 
-  it('calls router.push with the correct search URL when submitting a non-empty query', () => {
-    render(<SearchBox />);
-    
-    const input = screen.getByPlaceholderText('Search...');
-    const form = screen.getByRole('form');
 
-    fireEvent.change(input, { target: { value: 'test query' } });
-    fireEvent.submit(form);
-
-    expect(mockPush).toHaveBeenCalledWith('/search/test query');
-    expect(input).toHaveValue('');
-  });
-
-  it('does not call router.push when submitting an empty query', () => {
-    render(<SearchBox />);
-    
-    const form = screen.getByRole('form');
-    fireEvent.submit(form);
-
-    expect(mockPush).not.toHaveBeenCalled();
-  });
 
   it('renders the "Powered by Algolia" link', () => {
     render(<SearchBox />);

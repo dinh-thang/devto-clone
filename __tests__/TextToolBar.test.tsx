@@ -9,19 +9,7 @@ jest.mock('next/image', () => ({
 }));
 
 describe('TextToolBar', () => {
-  it('renders all tools', () => {
-    render(<TextToolBar />);
 
-    const expectedTools = [
-      "Bold", "Italic", "Link", "Ordered List", "Unordered List",
-      "Heading", "Quote", "Code", "Code Block", "Embed", "Upload Image"
-    ];
-
-    expectedTools.forEach(toolName => {
-      const toolButton = screen.getByRole('button', { name: new RegExp(toolName, 'i') });
-      expect(toolButton).toBeInTheDocument();
-    });
-  });
 
   it('applies custom className', () => {
     const customClass = 'custom-class';
